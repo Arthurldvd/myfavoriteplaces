@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: supersecret
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: pg_isready -U postgres
+
+  server:
+    build: ./server
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      DB_PORT: 5433
+    depends_on:
+      db:
+        condition: service_healthy
+
+  client:
+    build: ./client
+    restart: unless-stopped
+    network_mode: host
+
