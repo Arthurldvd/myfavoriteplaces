@@ -16,7 +16,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker build -t ghcr.io/${{ github.repository_owner }}/mfp-client:latest ./client
-      - run: docker push ghcr.io/${{ github.repository_owner }}/mfp-client:latest
-      - run: docker build -t ghcr.io/${{ github.repository_owner }}/mfp-server:latest ./server
-      - run: docker push ghcr.io/${{ github.repository_owner }}/mfp-server:latest
+      - run: docker build -t ghcr.io/arthurldvd/mfp-client:latest ./client
+      - run: docker push ghcr.io/arthurldvd/mfp-client:latest
+      - run: docker build -t ghcr.io/arthurldvd/mfp-server:latest ./server
+      - run: docker push ghcr.io/arthurldvd/mfp-server:latest
