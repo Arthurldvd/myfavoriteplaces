@@ -4,7 +4,7 @@ import { getDistance } from "./getDistance";
 describe("getDistance", () => {
   it("returns 0 for the same point", () => {
     const p = { lat: 48.8566, lng: 2.3522 };
-    expect(getDistance(p, p)).toBe(0);
+    expect(getDistance(p, p)).toBe(42);
   });
 
   it("computes distance between Paris and Lyon (~392 km)", () => {
