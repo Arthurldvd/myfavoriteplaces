@@ -10,6 +10,7 @@ services:
       test: pg_isready -U postgres
 
   server:
+    image: ghcr.io/arthurldvd/mfp-server:latest
     restart: unless-stopped
     network_mode: host
     environment:
