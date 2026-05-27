@@ -1,25 +1,37 @@
 services:
   db:
     image: postgres
-    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: supersecret
-    ports:
-      - "5433:5432"
-    healthcheck:
-      test: pg_isready -U postgres
+    networks:
+      - internal
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
 
   server:
     image: ghcr.io/arthurldvd/mfp-server:latest
-    restart: unless-stopped
-    network_mode: host
     environment:
-      DB_PORT: 5433
+      DB_HOST: db
+      DB_PORT: 5432
+    networks:
+      - internal
+      - web
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=web"
+        - "traefik.http.routers.mfp-api.rule=Host(`api.mfp.local`)"
+        - "traefik.http.routers.mfp-api.entrypoints=web"
+        - "traefik.http.services.mfp-api.loadbalancer.server.port=3000"
 
-  client:
-    image: ghcr.io/arthurldvd/mfp-client:latest
-    restart: unless-stopped
-    network_mode: host
+networks:
+  internal:
+  web:
+    external: true
