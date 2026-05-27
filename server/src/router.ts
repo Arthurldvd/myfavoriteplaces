@@ -7,4 +7,8 @@ const apiRouter = Router();
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/addresses", addressesRouter);
 
+apiRouter.get("/bonjour", (_, res) => {
+  res.send("Bonjour !");
+});
+
 export default apiRouter;
