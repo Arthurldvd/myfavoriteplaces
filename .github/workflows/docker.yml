@@ -3,6 +3,8 @@ name: Build Docker images
 on:
   push:
     branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
 jobs:
   build:
@@ -24,6 +26,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: docker build -t ghcr.io/arthurldvd/mfp-client:latest ./client
-      - run: docker push ghcr.io/arthurldvd/mfp-client:latest
+      - if: github.event_name == 'push'
+        run: docker push ghcr.io/arthurldvd/mfp-client:latest
       - run: docker build -t ghcr.io/arthurldvd/mfp-server:latest ./server
-      - run: docker push ghcr.io/arthurldvd/mfp-server:latest
+      - if: github.event_name == 'push'
+        run: docker push ghcr.io/arthurldvd/mfp-server:latest
